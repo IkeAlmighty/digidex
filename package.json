@@ -1,0 +1,15 @@
+{
+  "name": "express-calendar-app",
+  "version": "1.0.0",
+  "description": "A calendar app for more granular event sharing",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ikealmighty",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2",
+    "mongodb": "^6.12.0"
+  }
+}
