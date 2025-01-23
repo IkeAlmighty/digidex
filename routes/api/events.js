@@ -42,7 +42,59 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.put('/', async () => { });
-router.delete('/', async () => { });
+router.put('/', async (req, res) => {
+    const { _id, time, location, backBlazeImgKey, description, rootTag } = req.body;
+
+    if (!_id) {
+        console.error('_id is undefined in request body')
+        res.status(400).send();
+        return;
+    }
+
+    //purposefully exclude the _id field:
+    const fields = { time, location, backBlazeImgKey, description, rootTag };
+
+    // create an update document excluding undefined of fields:
+    let updatedFields = {};
+    Object.keys(fields).forEach(key => {
+        if (fields[key]) {
+            updatedFields[key] = fields[key];
+        }
+    });
+
+    // connect to database and update the document:
+    try {
+        const db = await connectToDatabase();
+        const mongoResponse = await db.collection('events').updateOne({ _id: ObjectId.createFromHexString(_id) },
+            {
+                $set: {
+                    ...updatedFields
+                }
+            });
+
+        if (mongoResponse.modifiedCount === 1) res.status(200).send();
+        else {
+            console.error('Document failed to update on POST api/events');
+            res.status(500).send();
+        }
+    } catch (err) {
+        console.dir(err);
+        res.status(400).send();
+    }
+});
+
+router.delete('/', async (req, res) => {
+    const { _id } = req.body;
+
+    try {
+        const db = await connectToDatabase();
+        const mongoRes = await db.collection('events').deleteOne({ _id: ObjectId.createFromHexString(_id) });
+
+        res.status(204).send();
+    } catch (err) {
+        console.error(err);
+        res.status(500).send();
+    }
+});
 
 export default router;

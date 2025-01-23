@@ -22,13 +22,25 @@ describe("Test POST /api/events and GET /api/events/:id", () => {
         expect(res.status).toBe(201);
         expect(res.body.id).toBeInstanceOf(String);
 
+        const _id = res.body.id;
+
         // test get route for inserted id
-        res = await request(app).get(`/api/events/${res.body.id}`);
+        res = await request(app).get(`/api/events/${_id}`);
         expect(res.status).toBe(200);
         expect(res.body.time).toBeInstanceOf(String)
         expect(res.body.location).toBeInstanceOf(String)
         expect(res.body.backBlazeImgKey).toBeInstanceOf(String)
         expect(res.body.description).toBeInstanceOf(String)
         expect(res.body.rootTag).toBeInstanceOf(String)
+
+        // test update:
+        const updatedDocument = { _id, description: 'Updated Decription', }
+
+        res = await request(app).put("/api/events").send(updatedDocument);
+        expect(res.status).toBe(200);
+
+        res = await request(app).delete("/api/events").send({ _id });
+        expect(res.status).toBe(204);
+        expect(res.body.deletedCount).toBe(1);
     })
 })
