@@ -35,6 +35,7 @@ PolySched operates with a **virtue-based ethics framework**, centered around **c
 PolySched organizes events through a **tagging system**, allowing flexible calendar interactions:  
 - **User-Owned Tags** – Users create and manage tags (e.g., `@alex/work` or `@jamie/friends`).  
 - **Tag Subscriptions** – Users follow tags to stay updated on relevant events.  
+- **Public Tags** - Tags that don't belong to an `@<user>` are public, anyone can subscribe to them, and they can be added a location based event feed as part of the monetization strategy for the app.
 
 ### 🗄 Database Structure  
 PolySched uses a **NoSQL** database with three main collections:  
