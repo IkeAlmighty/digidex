@@ -40,9 +40,9 @@ PolySched organizes events through a **tagging system**, allowing flexible calen
 ### 🗄 Database Structure  
 PolySched uses a **NoSQL** database with three main collections:  
 
-```json
+```js
 // USER COLLECTION  
-{ "userHandle": { "subscriptions": [... tagId] } }
+{ "userHandle": { "subscriptions": [...tagId] } }
 
 // TAG COLLECTION  
 { "tagId": { "events": [...eventId] } }
