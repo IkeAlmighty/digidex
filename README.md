@@ -25,7 +25,7 @@ Unlike traditional calendar apps, PolySched prioritizes **granular sharing** and
 - **Location-Based Discovery** – Browse public events near you  
 
 ## 🏛 Ethical Business Model  
-PolySched operates with a **virtue-based ethics framework**, centered around **community love** and social responsibility:  
+PolySched operates with a **virtue-based ethics framework**, centered around **community support** and **social responsibility**:  
 
 - **📢 Anti-Capitalist Approach** – Prioritizing mutual aid over profit, with pricing models designed to minimize harm to marginalized communities.  
 - **🏳️‍🌈 Queer & Inclusive** – Actively supporting LGBTQIA+ users through inclusive features and third-party audits.  
@@ -42,10 +42,10 @@ PolySched uses a **NoSQL** database with three main collections:
 
 ```json
 // USER COLLECTION  
-{ "userHandle": { "subscriptions": ["tagId"] } }
+{ "userHandle": { "subscriptions": [... tagId] } }
 
 // TAG COLLECTION  
-{ "tagId": { "events": ["eventId"] } }
+{ "tagId": { "events": [...eventId] } }
 
 // EVENT COLLECTION  
 { "eventId": { 
