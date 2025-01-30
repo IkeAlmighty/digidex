@@ -1,54 +1,75 @@
-# PolySched
-A mobile first calendar web app for more granular event sharing.
+# PolySched  
+*A mobile-first calendar web app for more granular event sharing*  
 
-PolySched uses a tag based system to make it easier to control who you share your calendar events with and what calendar events you subscribe to.
+PolySched is designed for individuals and organizations that need precise control over event sharing. Using a tag-based system, it allows users to selectively share events and subscribe to relevant calendars without unnecessary clutter.  
 
-## Development Stack (MERN)
- - Mongodb
- - ExpressJS
- - React
- - NodeJS
+## 🔧 Tech Stack (MERN)  
+- **MongoDB** – NoSQL database for flexible data storage  
+- **Express.js** – Backend API framework  
+- **React** – Interactive front-end for a seamless experience  
+- **Node.js** – Scalable server-side runtime  
 
-## Target Audience
-PolySched targets people with busy social lives who need to keep their schedules organized and share events in mass with particular groups of people so as to not overwhelm themselves and those who need to know about their schedule. These audiences include small businnesses, community organizers, individuals with large social networks, and individuals with multiple romantic partners. The app is mobile first because scheduling is often done on the fly from someone's mobile device, and not nessecarily from a traditional desktop computer. The calendar apps on the market often fail to provide understandable and easy to use mobile-first interface for granular event sharing.
+## 🎯 Who Is It For?  
+PolySched is built for people with active social lives and complex scheduling needs. It’s especially useful for:  
+- **Small businesses** coordinating staff and events  
+- **Community organizers** managing gatherings and meetings  
+- **Socially active individuals** juggling multiple commitments  
+- **Polyamorous individuals** organizing relationships and meetups  
 
-## Business Ethics Framework
-Polysched aims to create a service that pays for itself without sacrificing the ethics of the business. The general outline for the ethical framework of PolySched is virtue based. The key aspects practiced in the business strategy of PolySched are the following, grounded in the virtue of ***community love***:
+Unlike traditional calendar apps, PolySched prioritizes **granular sharing** and a **mobile-first** experience, recognizing that scheduling often happens on the go.  
 
- - **Anticapitalist** - Since minority oppresion is often tied to the capitalist class system, PolySched aims to practice mutual aid, and work against avarice and greed within and outside the company, particularly in the contexts of systemic oppresion of minorities in society. This means profit models developed by PolySched are designed to negatively affect the poor and underprivilaged as little as possible while still existing in the system of capitalism.
- - **LGBTQA+ Friendly** - Polysched's business practices should routinely be scrutinized by third parties to determine that it supports the queer community the best it can through inclusive app features and mutual aid.
- - **Accepting of all Relationship Structures** - Polysched is designed to be used by socially active individuals and small organizations. This happens to include a huge amount of polyamorous individuals who struggle to organize their lives with the tools that exist, as well as monogamous individuals with busy social lives.
+## 💡 Key Features  
+- **Tag-Based Event Sharing** – Share events with specific groups using customizable user-owned tags  
+- **Granular Permissions** – Control who can view, join, or interact with events  
+- **Mobile-First Design** – Optimized for ease of use on smartphones  
+- **Location-Based Discovery** – Browse public events near you  
 
-## Tags, User-Tags, and Tag Subcriptions
-PolySched provides flexible database interactions to users through the use of tags and user tags. Each event is owned by a single user-tag or tag, and depending on the owner's permission preferences other users may subscribe to a tag. Each event also contains an upscription list of tags and user-tags, allowing an event to show up under multiple tags provided the owner of the tag allows it.
+## 🏛 Ethical Business Model  
+PolySched operates with a **virtue-based ethics framework**, centered around **community love** and social responsibility:  
 
-## Database Structure
-PolySched uses a noSQL database with three main collections:
+- **📢 Anti-Capitalist Approach** – Prioritizing mutual aid over profit, with pricing models designed to minimize harm to marginalized communities.  
+- **🏳️‍🌈 Queer & Inclusive** – Actively supporting LGBTQIA+ users through inclusive features and third-party audits.  
+- **❤️ Relationship-Agnostic** – Designed for both polyamorous and monogamous users who need effective scheduling tools.  
 
-    // USER COLLECTION
-    { ...userHandle: { subscriptions: [...{ tagId, tag } ], } }
+## 🏷 Tags & Subscriptions  
+PolySched organizes events through a **tagging system**, allowing flexible calendar interactions:  
+- **User-Owned Tags** – Users create and manage tags (e.g., `@alex/work` or `@jamie/friends`).  
+- **Tag Subscriptions** – Users follow tags to stay updated on relevant events.  
+- **Event Upscription** – Events can belong to multiple tags, ensuring they appear in all relevant feeds.  
 
-    // TAG COLLECTION
-    { ...tag: [...eventId] }
+### 🗄 Database Structure  
+PolySched uses a **NoSQL** database with three main collections:  
 
-    // EVENT COLLECTION
-    { ...eventId:    
-        { 
-            time, 
-            location, 
-            backBlazeImgKey, 
-            description,
-            adPaid, 
-            rootTag
-        } 
-    }
+```json
+// USER COLLECTION  
+{ "userHandle": { "subscriptions": ["tagId"] } }
 
-Event.adPaid is part of the monetization strategy for the app. 
+// TAG COLLECTION  
+{ "tagId": { "events": ["eventId"] } }
 
-## Monetization
+// EVENT COLLECTION  
+{ "eventId": { 
+    "time": "datetime",  
+    "location": "string",  
+    "imageKey": "string",  
+    "description": "string",  
+    "adPaid": "boolean",  
+    "rootTag": "string"  
+  } 
+}
+```
 
-PolySched needs to support itself and support worker-owner labor. The goal is to pay $5000 per month per worker-owner to labor costs (adjusting this amount to account for cost of living and future inflation), without sacrificing the ethical goals of the business. After other business costs such as advertising, taxes, and digital infrastructure costs are paid for, the remaining profits are put into a mutual aid fund for communities in need.
+`adPaid` is part of the **monetization strategy** (see below).  
 
-Events in polysched made under a public tag (instead of a user tag) can be viewed by anyone subscribed to the tag, and each public event be added to a browsable location based event feed for a small fee by any user.
+## 💰 Monetization Strategy  
+PolySched aims to sustain itself while maintaining ethical business practices. The goal is to pay worker-owners a **fair wage ($5,000/month per worker, adjusted for cost of living)** while funding community aid initiatives.  
 
-To reach revenue of ~7000/mo with this monetization strategy would require ~1400 events published to the event feed per month (assuming the price to publish is $5.00). Polysched chooses the price based on what minorities can afford and does not allow 'boosting' of the event like other social media platforms do, because doing so would cater more towards large companies instead of small individuals. Catering to large companies, while more profitable, leads away from local community building and anticapitalist related virtues that PolySched outlines in it's Business Ethics Framework.
+### How We Generate Revenue  
+- **Paid Public Events** – Events posted under public tags can be featured in a location-based event feed for a **small one-time fee**.  
+- **No "Boosting"** – Unlike social media platforms that favor large corporations, PolySched ensures visibility is **equal for all**, prioritizing accessibility for small businesses and individuals.  
+
+### 📊 Example Revenue Model  
+- **$5 per event listing** in the public event feed  
+- **1,400 events per month** → **$7,000 revenue** (covering costs + community aid)  
+
+By avoiding exploitative advertising and **keeping costs fair for marginalized users**, PolySched stays aligned with its ethical mission.  
