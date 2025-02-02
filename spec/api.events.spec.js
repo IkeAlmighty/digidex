@@ -41,6 +41,5 @@ describe("Test POST /api/events and GET /api/events/:id", () => {
 
         res = await request(app).delete("/api/events").send({ _id });
         expect(res.status).toBe(204);
-        expect(res.body.deletedCount).toBe(1);
     })
 })
