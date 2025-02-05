@@ -73,3 +73,12 @@ PolySched aims to sustain itself while maintaining ethical business practices. T
 - **1,400 events per month** → **$7,000 revenue** (covering costs + community aid)  
 
 By avoiding exploitative advertising and **keeping costs fair for marginalized users**, PolySched stays aligned with its ethical mission.  
+
+
+
+from user collecition
+as a user viewing calendar
+look up user handle
+display all tags user is subscribed to - that they are allowed to see (subscription list)
+each tag from subscription list has a list of events 
+from event table, display list of events with that given tag
