@@ -2,7 +2,6 @@ import express from 'express';
 import routes from './routes/index.js'
 
 const app = express();
-const router = express.Router();
 const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
