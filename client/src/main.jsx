@@ -1,4 +1,3 @@
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes } from 'react-router';
 import RouteConfig from './RouteConfig.jsx';
