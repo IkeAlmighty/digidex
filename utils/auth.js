@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+// import jwt from "jsonwebtoken";
 import { connectToDatabase } from "../db/connection.js";
 
 // Middleware function to authenticate the user
