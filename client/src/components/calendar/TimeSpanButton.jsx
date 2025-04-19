@@ -3,7 +3,7 @@ export default function TimeSpanButton({ text, selected, onClick }) {
     <div>
       <button
         onClick={onClick}
-        className={`cursor-pointer px-6 py-3 m-1 text-lg font-semibold bg-lime-600 text-white rounded-lg hover:bg-lime-200 hover:text-black`}
+        className={`cursor-pointer px-3 py-1 m-1 text-[0.7rem] font-semibold bg-lime-600 text-white rounded-lg hover:bg-lime-200 hover:text-black`}
       >
         {text}
       </button>
