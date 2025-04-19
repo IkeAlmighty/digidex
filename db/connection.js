@@ -1,8 +1,8 @@
 import { MongoClient, ServerApiVersion } from "mongodb";
 import 'dotenv/config';
 // Replace the placeholder with your Atlas connection string
-const uri = process.env.MONGO_URI;
-const dbName = process.env.DB_NAME;
+const uri = process.env.MONGO_URI || 'mongodb://localhost:27017';
+const dbName = process.env.DB_NAME || 'polysched';
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
