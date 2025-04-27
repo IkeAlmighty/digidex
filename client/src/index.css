@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Semplicita';
+  src: url(../public/fonts/Semplicita/Semplicita\ Bold.otf) format('opentype');
+}
+
+:root {
+  font-family: 'Semplicita';
+}
+
+h1 {
+  @apply text-4xl;
+}
