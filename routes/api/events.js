@@ -10,12 +10,17 @@ router.get("/:startEpochMs/:endEpochMs", async (req, res) => {
     const { startEpochMs, endEpochMs } = req.params;
     const db = await connectToDatabase();
 
+    const { user } = req;
+
     const eventsData = await db
       .collection("events")
       .aggregate([
         { startTime: { $gte: startEpochMs } },
-        { endTime: {$lte: endEpochMs}}
-    ]);
+        { endTime: { $lte: endEpochMs } },
+        { $unwind: tags },
+        { tags: { $in: user.tags } },
+        { $group: { _id: "$_id", tags: { $push: "$tags" } } },
+      ]);
 
     res.json(eventsData);
   } catch (err) {
