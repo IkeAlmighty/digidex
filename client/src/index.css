@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: 'Semplicita';
-  src: url(../public/fonts/Semplicita/Semplicita\ Bold.otf) format('opentype');
+  font-family: "Semplicita";
+  src: url(/fonts/Semplicita/Semplicita\ Bold.otf) format("opentype");
 }
 
 :root {
-  font-family: 'Semplicita';
+  font-family: "Semplicita";
 }
 
 h1 {
