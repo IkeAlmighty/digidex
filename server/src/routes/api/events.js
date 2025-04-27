@@ -1,26 +1,23 @@
 import express from "express";
-import { connectToDatabase, closeConnection } from "../../db/connection.js";
 import { validateEventData } from "../../utils/validation.js";
 import { ObjectId } from "mongodb";
+import Event from "../../models/Event.js";
 
 const router = express.Router();
 
 router.get("/:startEpochMs/:endEpochMs", async (req, res) => {
   try {
     const { startEpochMs, endEpochMs } = req.params;
-    const db = await connectToDatabase();
 
     const { user } = req;
 
-    const eventsData = await db
-      .collection("events")
-      .aggregate([
-        { startTime: { $gte: startEpochMs } },
-        { endTime: { $lte: endEpochMs } },
-        { $unwind: tags },
-        { tags: { $in: user.tags } },
-        { $group: { _id: "$_id", tags: { $push: "$tags" } } },
-      ]);
+    const eventsData = await Event.aggregate([
+      { startTime: { $gte: startEpochMs } },
+      { endTime: { $lte: endEpochMs } },
+      { $unwind: tags },
+      { tags: { $in: user.tags } },
+      { $group: { _id: "$_id", tags: { $push: "$tags" } } },
+    ]);
 
     res.json(eventsData);
   } catch (err) {
@@ -31,12 +28,10 @@ router.get("/:startEpochMs/:endEpochMs", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
   try {
-    const db = await connectToDatabase();
-
     const _id = new ObjectId(req.params.id);
 
-    const eventData = await db.collection("events").findOne({ _id });
-    if (eventData) res.json(eventData);
+    const event = await Event.findById(_id);
+    if (event) res.json(event);
     else
       res.status(404).json({ message: `id ${_id.toString()} does not exist` });
   } catch (err) {
@@ -46,7 +41,7 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-  const { time, location, backBlazeImgKey, description, rootTag } = req.body;
+  const { time, location, imageKey, description, username } = req.body;
 
   // if event validation fails, tell the client and abort:
 
@@ -57,11 +52,23 @@ router.post("/", async (req, res) => {
 
   // send event to database:
   try {
-    const db = await connectToDatabase();
-    const mongoResponse = await db
-      .collection("events")
-      .insertOne({ time, location, backBlazeImgKey, description, rootTag });
-    res.status(201).json({ id: mongoResponse.insertedId });
+    // find the owner:
+    const owner = User.findOne({ username });
+
+    if (!owner) {
+      return res
+        .status(404)
+        .json({ message: `user of username ${username} does not exist.` });
+    }
+
+    await Event.insertOne({
+      time,
+      location,
+      imageKey,
+      description,
+      owner,
+    });
+    res.status(201).json({ message: "added event to database" });
   } catch (err) {
     console.dir(err);
     res.status(500).send();
@@ -69,8 +76,7 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/", async (req, res) => {
-  const { _id, time, location, backBlazeImgKey, description, rootTag } =
-    req.body;
+  const { _id, time, location, imageKey, description } = req.body;
 
   if (!_id) {
     console.error("_id is undefined in request body");
@@ -79,7 +85,7 @@ router.put("/", async (req, res) => {
   }
 
   //purposefully exclude the _id field:
-  const fields = { time, location, backBlazeImgKey, description, rootTag };
+  const fields = { time, location, imageKey, description };
 
   // create an update document excluding undefined of fields:
   let updatedFields = {};
@@ -91,9 +97,8 @@ router.put("/", async (req, res) => {
 
   // connect to database and update the document:
   try {
-    const db = await connectToDatabase();
-    const mongoResponse = await db.collection("events").updateOne(
-      { _id: ObjectId.createFromHexString(_id) },
+    const mongoResponse = await Event.updateOne(
+      { id: _id },
       {
         $set: {
           ...updatedFields,
@@ -116,10 +121,7 @@ router.delete("/", async (req, res) => {
   const { _id } = req.body;
 
   try {
-    const db = await connectToDatabase();
-    const mongoRes = await db
-      .collection("events")
-      .deleteOne({ _id: ObjectId.createFromHexString(_id) });
+    await Event.deleteOne({ id: _id });
 
     res.status(204).send();
   } catch (err) {
