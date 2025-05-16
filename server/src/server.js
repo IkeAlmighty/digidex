@@ -14,17 +14,20 @@ app.use(routes);
 
 db.once("open", () => {
   console.log("\n\nConnected to database...");
-  const server = app.listen(PORT, async () => {
-    const address = server.address();
-    if (typeof address === "string") {
-      console.log(`Express server listening on ${address}\n\n`);
-    } else if (address && typeof address === "object") {
-      const host = address.address === "::" ? "localhost" : address.address;
-      console.log(
-        `Express server listening on http://${host}:${address.port}\n\n`
-      );
-    }
-  });
+
+  if (process.env.NODE_ENV !== "test") {
+    const server = app.listen(PORT, async () => {
+      const address = server.address();
+      if (typeof address === "string") {
+        console.log(`Express server listening on ${address}\n\n`);
+      } else if (address && typeof address === "object") {
+        const host = address.address === "::" ? "localhost" : address.address;
+        console.log(
+          `Express server listening on http://${host}:${address.port}\n\n`
+        );
+      }
+    });
+  }
 });
 
 // for testing:
