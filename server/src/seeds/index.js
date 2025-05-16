@@ -14,7 +14,10 @@ async function seed() {
     await User.deleteMany({});
     await Tag.deleteMany({});
 
-    await User.insertMany(userData);
+    for (const user of userData) {
+      console.log(user);
+      await User.create(user);
+    }
 
     for (const e of eventData) {
       const username = e.owner;
@@ -33,11 +36,12 @@ async function seed() {
     }
 
     console.log("Seed completed 🌱");
-    db.close();
   } catch (err) {
     console.error("Seed failed ❌", err);
     console.log(err);
   }
+
+  db.close();
 }
 
 async function createTagsFromData(tagData, owner) {
