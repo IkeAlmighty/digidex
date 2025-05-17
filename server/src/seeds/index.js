@@ -15,7 +15,6 @@ async function seed() {
     await Tag.deleteMany({});
 
     for (const user of userData) {
-      console.log(user);
       await User.create(user);
     }
 
