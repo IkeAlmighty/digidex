@@ -4,6 +4,15 @@ const now = new Date();
 
 export default [
   {
+    startTime: 0,
+    endTime: 1000 * 60 * 2, // 2 hours later
+    tags: ["test", "ancient events"],
+    title: "An ancient test case",
+    description: "Nice little test for later.",
+    location: "333 Camp Cinema Ln",
+    owner: "ike",
+  },
+  {
     startTime: findMinutesFrom(now, 30),
     endTime: findMinutesFrom(now, 60),
     tags: ["polycule", "friends"],
