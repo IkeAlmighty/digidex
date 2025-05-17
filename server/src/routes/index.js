@@ -11,6 +11,6 @@ const router = express.Router();
 router.use("/api/events", authenticateMiddleware, eventRoutes);
 router.use("/api/tags", authenticateMiddleware, tagRoutes);
 router.use("/api/users", authenticateMiddleware, userRoutes);
-router.use("/api/account", accountRoutes);
+router.use("/api/accounts", accountRoutes);
 
 export default router;

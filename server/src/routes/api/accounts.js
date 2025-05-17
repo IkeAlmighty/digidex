@@ -1,5 +1,6 @@
 import { Router } from "express";
-import User from "../../models/User.js";
+import { User } from "../../models/index.js";
+import jwt from "jsonwebtoken";
 
 const router = Router();
 
@@ -21,7 +22,7 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Authentication failed." });
     }
 
-    const { tags, username, _id } = await user.populate("tags").toObject();
+    const { tags, username, _id } = (await user.populate("tags")).toObject();
 
     // create token:
     const authToken = jwt.sign(
