@@ -1,7 +1,7 @@
 import express from "express";
 import { validateEventData } from "../../utils/validation.js";
 import { ObjectId } from "mongodb";
-import Event from "../../models/Event.js";
+import { Event } from "../../models/index.js";
 
 const router = express.Router();
 
@@ -12,10 +12,14 @@ router.get("/:startEpochMs/:endEpochMs", async (req, res) => {
     const { user } = req;
 
     const eventsData = await Event.aggregate([
-      { startTime: { $gte: startEpochMs } },
-      { endTime: { $lte: endEpochMs } },
-      { $unwind: tags },
-      { tags: { $in: user.tags } },
+      {
+        $match: {
+          startTime: { $gte: startEpochMs },
+          endTime: { $lte: endEpochMs },
+        },
+      },
+      { $unwind: "$tags" },
+      { $match: { tags: { $in: user.tags } } },
       { $group: { _id: "$_id", tags: { $push: "$tags" } } },
     ]);
 
