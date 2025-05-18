@@ -8,7 +8,7 @@ export default function TimeSpanButton({ text, selected, onClick }) {
         {text}
       </button>
       {selected === text && (
-        <hr className="mt-1 border-t-2 border-blue-500 w-3/4 mx-3" />
+        <hr className="mt-1 border-t-2 border-blue-500 mx-3" />
       )}
     </div>
   );
