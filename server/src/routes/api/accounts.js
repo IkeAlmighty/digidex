@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { User } from "../../models/index.js";
 import jwt from "jsonwebtoken";
+import { authenticateMiddleware } from "../../utils/auth.js";
 
 const router = Router();
 
@@ -22,16 +23,12 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Authentication failed." });
     }
 
-    const { tags, username, _id } = (await user.populate("tags")).toObject();
+    const { id } = user;
 
     // create token:
-    const authToken = jwt.sign(
-      { tags, username, _id },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "7d",
-      }
-    );
+    const authToken = jwt.sign({ id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
 
     // create an httpOnly cookie to store user data
     res.cookie("authToken", authToken, {
@@ -46,6 +43,13 @@ router.post("/login", async (req, res) => {
     console.log(err);
     res.status(500).json({ message: "An unexpected error occurred." });
   }
+});
+
+router.get("/me", authenticateMiddleware, async (req, res) => {
+  const user = await User.findById(req.user.id)
+    .populate("tags")
+    .select("-password");
+  res.json(user);
 });
 
 export default router;
