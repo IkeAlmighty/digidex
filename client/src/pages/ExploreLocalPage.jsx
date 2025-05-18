@@ -1,10 +1,12 @@
-function ExploreLocalPage() {
+import Navigation from "../components/Navigation";
 
-    return (
-        <>
-            <div>Explore Local Events Page</div>
-        </>
-    )
+function ExploreLocalPage() {
+  return (
+    <>
+      <Navigation />
+      <div>Explore Local Events Page</div>
+    </>
+  );
 }
 
-export default ExploreLocalPage
+export default ExploreLocalPage;

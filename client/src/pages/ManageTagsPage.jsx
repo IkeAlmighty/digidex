@@ -1,10 +1,12 @@
-function ManageTagsPage() {
+import Navigation from "../components/Navigation";
 
-    return (
-        <>
-            <div>Manage Tag Permissions Page</div>
-        </>
-    )
+function ManageTagsPage() {
+  return (
+    <>
+      <Navigation />
+      <div>Manage Tag Permissions Page</div>
+    </>
+  );
 }
 
-export default ManageTagsPage
+export default ManageTagsPage;
