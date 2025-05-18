@@ -45,6 +45,17 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.post("/logout", async (_req, res) => {
+  res.clearCookie("authToken", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+  });
+
+  res.redirect("/login");
+});
+
 router.get("/me", authenticateMiddleware, async (req, res) => {
   const user = await User.findById(req.user.id)
     .populate("tags")
