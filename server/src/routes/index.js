@@ -11,6 +11,6 @@ const router = express.Router();
 router.use("/api/events", authenticateMiddleware, eventRoutes);
 router.use("/api/tags", authenticateMiddleware, tagRoutes);
 router.use("/api/users", authenticateMiddleware, userRoutes);
-router.use("/api/accounts", accountRoutes);
+router.use("/api/accounts", accountRoutes); // accouts/me is protected from within the /accounts file
 
 export default router;
