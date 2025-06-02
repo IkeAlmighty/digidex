@@ -7,17 +7,12 @@ export default function Navigation() {
   const segments = location.pathname.split("/").filter(Boolean);
   const pageSlug = "/" + (segments[segments.length - 1] || "");
 
-  const pages = [
-    { title: "Your Calendar", href: "/" },
-    { title: "Explore Events", href: "/explore" },
-    { title: "Your Subscriptions", href: "/subscriptions" },
-    { title: "Your Crews", href: "/permissions" },
-  ];
+  const pages = [{ title: "", href: "/" }];
 
   return (
     <nav>
       <div className="flex items-stretch justify-between border-b">
-        <h1 className="inline-block p-2">{"PolySched"}</h1>
+        <h1 className="inline-block p-2">{"DigiDex"}</h1>
 
         <HamburgerMenu>
           {pages.map((page) => {

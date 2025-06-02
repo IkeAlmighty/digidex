@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 import React, { useEffect, useState } from "react";
-import { me } from "../api/accounts";
+import { me } from "../api/users.js";
 
 export default function ProtectedRoute({ children }) {
   const navigate = useNavigate();

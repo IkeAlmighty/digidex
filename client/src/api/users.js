@@ -1,5 +1,5 @@
 export async function login(email, password) {
-  const response = await fetch("/api/accounts/login", {
+  const response = await fetch("/api/users/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -11,7 +11,7 @@ export async function login(email, password) {
 }
 
 export async function logout() {
-  const response = await fetch("/api/accounts/logout", {
+  const response = await fetch("/api/users/logout", {
     method: "POST",
   });
 
@@ -19,7 +19,7 @@ export async function logout() {
 }
 
 export async function me() {
-  const response = await fetch("/api/accounts/me");
+  const response = await fetch("/api/users/me");
 
   return await response;
 }

@@ -21,9 +21,9 @@ const userSchema = new Schema(
       required: true,
       minlength: 5,
     },
-    tags: {
+    contacts: {
       type: [Schema.Types.ObjectId],
-      ref: "Tag",
+      ref: "Contact",
       default: [],
     },
   },
