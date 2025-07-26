@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 // Middleware function to authenticate the user
-const authenticateMiddleware = (req, res, next) => {
+const authenticateMiddleware = async (req, res, next) => {
   const token = req.cookies.authToken; // Get token from httpOnly cookie
 
   if (!token) {
@@ -16,9 +16,8 @@ const authenticateMiddleware = (req, res, next) => {
 
     next(); // Proceed to the next middleware/route handler
   } catch (err) {
-    console.log(err);
     // send user to login page if the token is invalid
-    return res.redirect("/login");
+    return res.status(401).json({ error: "Unauthorized" });
   }
 };
 
