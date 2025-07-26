@@ -7,15 +7,19 @@ export default function ProtectedRoute({ children }) {
   const [user, setUser] = useState(null); // null == loading
 
   useEffect(() => {
-    (async function () {
+    async function fetchAndSetUser() {
       const response = await me();
 
       if (response.ok) {
         setUser(await response.json());
-      } else {
+      } else if (response.status === 401) {
         navigate("/login");
+      } else {
+        console.log(await response.json());
       }
-    })();
+    }
+
+    fetchAndSetUser();
   }, []);
 
   if (user === null) return <div>...Loading</div>;
