@@ -9,13 +9,16 @@ const contactSchema = new Schema({
   },
   email: {
     type: String,
-    unique: true,
     match: [/.+@.+\..+/, "Must match an email address!"],
+    unique: true,
+    sparse: true,
   },
   phone: {
     type: Number,
     match: [/^\+?[0-9\-().\s]{7,20}$/, "Invalid phone number"],
     trim: true,
+    unique: true,
+    sparse: true,
   },
   user: {
     type: Schema.Types.ObjectId,
