@@ -11,10 +11,12 @@ const ContactsPage = () => {
   });
 
   useEffect(() => {
-    fetch("/api/contacts")
-      .then((res) => res.json())
-      .then(setContacts)
-      .catch(console.error);
+    async function fetchAndSetContacts() {
+      const response = await fetch("/api/contacts");
+      setContacts(await response.json());
+    }
+
+    fetchAndSetContacts();
   }, []);
 
   const handleAdd = async () => {
@@ -24,9 +26,15 @@ const ContactsPage = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newContact),
       });
-      const created = await res.json();
-      setContacts([...contacts, created]);
-      setNewContact({ name: "", email: "", phone: "" });
+
+      if (res.ok) {
+        const { created } = await res.json();
+        setContacts([...contacts, created]);
+        setNewContact({ name: "", email: "", phone: "" });
+      } else {
+        const { error } = await res.json();
+        alert(error); // TODO: replace with toast notification
+      }
     } catch (err) {
       console.error(err);
     }
