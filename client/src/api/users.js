@@ -7,7 +7,7 @@ export async function login(email, password) {
     body: JSON.stringify({ email, password }),
   });
 
-  return await response;
+  return response;
 }
 
 export async function logout() {
@@ -15,11 +15,9 @@ export async function logout() {
     method: "POST",
   });
 
-  return await response;
+  return response;
 }
 
 export async function me() {
-  const response = await fetch("/api/users/me");
-
-  return await response;
+  return await fetch("/api/users/me");
 }
