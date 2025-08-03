@@ -1,7 +1,9 @@
 import { Schema, model } from "mongoose";
 
-// Define the schema for the User document
 const contactSchema = new Schema({
+  owner: {
+    type: Schema.Types.ObjectId,
+  },
   name: {
     type: String,
     required: true,
@@ -10,15 +12,11 @@ const contactSchema = new Schema({
   email: {
     type: String,
     match: [/.+@.+\..+/, "Must match an email address!"],
-    unique: true,
-    sparse: true,
   },
   phone: {
     type: Number,
     match: [/^\+?[0-9\-().\s]{7,20}$/, "Invalid phone number"],
     trim: true,
-    unique: true,
-    sparse: true,
   },
   user: {
     type: Schema.Types.ObjectId,

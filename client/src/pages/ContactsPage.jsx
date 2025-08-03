@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import Contact from "./Contact";
 import Navigation from "../components/Navigation";
+import NewContact from "../components/NewContact";
 
 const ContactsPage = () => {
   const [contacts, setContacts] = useState([]);
-  const [newContact, setNewContact] = useState({
-    name: "",
-    email: "",
-    phone: "",
-  });
+
+  const [showNewContactComponent, setShowNewContactComponent] = useState(false);
 
   useEffect(() => {
     async function fetchAndSetContacts() {
@@ -19,7 +17,7 @@ const ContactsPage = () => {
     fetchAndSetContacts();
   }, []);
 
-  const handleAdd = async () => {
+  const handleAdd = async (newContact) => {
     try {
       const res = await fetch("/api/contacts", {
         method: "POST",
@@ -30,7 +28,6 @@ const ContactsPage = () => {
       if (res.ok) {
         const { created } = await res.json();
         setContacts([...contacts, created]);
-        setNewContact({ name: "", email: "", phone: "" });
       } else {
         const { error } = await res.json();
         alert(error); // TODO: replace with toast notification
@@ -56,34 +53,17 @@ const ContactsPage = () => {
   };
 
   return (
-    <div>
+    <div class="mx-auto p-2 max-w-[800px]">
       <Navigation />
       <h2>My Contacts</h2>
-
-      <div className="max-w-[800px] mx-auto">
-        <input
-          placeholder="Name"
-          value={newContact.name}
-          onChange={(e) =>
-            setNewContact({ ...newContact, name: e.target.value })
-          }
-        />
-        <input
-          placeholder="Email"
-          value={newContact.email}
-          onChange={(e) =>
-            setNewContact({ ...newContact, email: e.target.value })
-          }
-        />
-        <input
-          placeholder="Phone"
-          value={newContact.phone}
-          onChange={(e) =>
-            setNewContact({ ...newContact, phone: e.target.value })
-          }
-        />
-        <button onClick={handleAdd}>Add Contact</button>
+      <div className="text-center [&>button]:cursor-pointer text-7xl">
+        <button
+          onClick={() => setShowNewContactComponent(!showNewContactComponent)}
+        >
+          {showNewContactComponent ? "-" : "+"}
+        </button>
       </div>
+      {showNewContactComponent && <NewContact onSubmit={handleAdd} />}
 
       <div>
         {contacts.map((contact) => (

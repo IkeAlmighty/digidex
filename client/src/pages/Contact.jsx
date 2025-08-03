@@ -4,40 +4,57 @@ const Contact = ({ contact, onDelete, onUpdate }) => {
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState(contact);
 
-  const handleSave = () => {
+  function handleSave() {
     onUpdate(contact._id, form);
     setEditing(false);
-  };
+  }
 
   return (
-    <div style={{ border: "1px solid #ccc", margin: 8, padding: 8 }}>
+    <div className="b-1 [&_*]:my-1 [&_*]:p-1 [&_*]:mx-2 [&_button]:cursor-pointer [&_button]:text-[#ccc] [&_a]:text-[#ccc] [&_a]:cursor-pointer [&_input]:text-[#ccc] ">
       {editing ? (
-        <>
-          <input
-            value={form.name}
-            onChange={(e) => setForm({ ...form, name: e.target.value })}
-          />
-          <input
-            value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
-          />
-          <input
-            value={form.phone}
-            onChange={(e) => setForm({ ...form, phone: e.target.value })}
-          />
+        <div className=" ">
+          <div>
+            <label>
+              Name
+              <input
+                value={form.name}
+                onChange={(e) => setForm({ ...form, name: e.target.value })}
+              />
+            </label>
+          </div>
+          <div>
+            <label>
+              Email
+              <input
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+              />
+            </label>
+          </div>
+          <div>
+            <label>
+              Phone
+              <input
+                value={form.phone}
+                onChange={(e) => setForm({ ...form, phone: e.target.value })}
+              />
+            </label>
+          </div>
           <button onClick={handleSave}>Save</button>
           <button onClick={() => setEditing(false)}>Cancel</button>
-        </>
-      ) : (
-        <>
-          <p>
-            <strong>{contact.name}</strong>
-          </p>
-          <p>{contact.email}</p>
-          <p>{contact.phone}</p>
-          <button onClick={() => setEditing(true)}>Edit</button>
           <button onClick={() => onDelete(contact._id)}>Delete</button>
-        </>
+        </div>
+      ) : (
+        <div>
+          <div>{contact.name}</div>
+          <div>{contact.email}</div>
+          <div>{contact.phone}</div>
+          <button onClick={() => setEditing(true)}>Edit</button>
+          <a href={`sms:${contact.phone}`}>Text</a>
+          <a href={`mailto:${contact.email}`}>Email</a>
+          <a href={`tel:${contact.phone}`}>Call</a>
+          <hr />
+        </div>
       )}
     </div>
   );
