@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { login } from "../api/users.js";
-import { useNavigate } from "react-router";
+import { useNavigate, Link } from "react-router";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -61,6 +61,13 @@ export default function Login() {
       </button>
 
       <div className="text-red-500 text-xs">{errorMessage}</div>
+
+      <div className="mt-10">
+        No account?{" "}
+        <Link className="text-2xl underline text-blue-500" to="/signup">
+          Sign Up &lt;3
+        </Link>
+      </div>
     </form>
   );
 }
