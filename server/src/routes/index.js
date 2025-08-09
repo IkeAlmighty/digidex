@@ -5,7 +5,7 @@ import express from "express";
 
 const router = express.Router();
 
-router.use("/api/users", userRoutes); // accouts/me is protected from within the /accounts file
-router.use("/api/contacts", authenticateMiddleware, contactRoutes);
+router.use("/users", userRoutes); // accouts/me is protected from within the /accounts file
+router.use("/contacts", authenticateMiddleware, contactRoutes);
 
 export default router;
