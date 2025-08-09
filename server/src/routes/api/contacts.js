@@ -7,6 +7,7 @@ const router = Router();
 router.post("/", async (req, res) => {
   const { name, email, phone, notes, tags } = req.body;
   const contactData = trimUnusedFields({
+    owner: req.user.id,
     name,
     email,
     phone: parseInt(phone),
@@ -42,4 +43,13 @@ router.delete("/:id", async (req, res) => {
   res.status(200).send();
 });
 
+router.put("/:_id", async (req, res) => {
+  const { _id } = req.params;
+  const { name, email, phone, tags } = req.body;
+  const contact = { name, email, phone, tags, _id };
+
+  await Contact.findByIdAndUpdate(_id, contact);
+
+  res.json(contact);
+});
 export default router;
