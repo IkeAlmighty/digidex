@@ -2,6 +2,8 @@ import express from "express";
 import routes from "./routes/index.js";
 import db from "./db/connection.js";
 import cookieParser from "cookie-parser";
+import { fileURLToPath } from "url";
+import path from "path";
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -10,7 +12,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use(routes);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve static files from client/dist
+app.use(express.static(path.join(__dirname, "../../client", "dist")));
+
+// For any route not handled by API, send index.html
+app.get(/^\/(?!api).*/, (_req, res) => {
+  res.sendFile(path.join(__dirname, "../../client", "dist", "index.html"));
+});
+
+// api routes:
+app.use("/api", routes);
 
 db.once("open", () => {
   console.log("\n\nConnected to database...");
