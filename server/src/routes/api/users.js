@@ -63,4 +63,45 @@ router.get("/me", authenticateMiddleware, async (req, res) => {
   res.json(user);
 });
 
+router.post("/signup", async (req, res) => {
+  const { email, username, password } = req.body;
+
+  if (!email || !password) {
+    res.status(400).json({ message: "email or password is undefined." });
+  }
+
+  try {
+    let user = await User.findOne({ email });
+    if (user) {
+      return res
+        .status(401)
+        .json({ message: "User already exist with that email" });
+    }
+
+    // reassign to a new user if the previous check failed:
+    user = await User.create({ email, username, password });
+
+    const { id } = user;
+
+    // create token:
+    const authToken = jwt.sign({ id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
+
+    // create an httpOnly cookie to store user data
+    res.cookie("authToken", authToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days to match jwt token expiration
+    });
+
+    // redirect to home page on successful account creation:
+    res.status(201).json({ message: "Account created successfully" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "An unexpected error occurred." });
+  }
+});
+
 export default router;

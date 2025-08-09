@@ -21,3 +21,13 @@ export async function logout() {
 export async function me() {
   return await fetch("/api/users/me");
 }
+
+export async function signup(username, email, password) {
+  return await fetch("/api/users/signup", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ username, email, password }),
+  });
+}
