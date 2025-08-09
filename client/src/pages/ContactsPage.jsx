@@ -42,18 +42,18 @@ const ContactsPage = () => {
     setContacts(contacts.filter((c) => c._id !== id));
   };
 
-  const handleUpdate = async (id, updatedData) => {
-    const res = await fetch(`/api/contacts/${id}`, {
+  const handleUpdate = async (updatedData) => {
+    const res = await fetch(`/api/contacts/${updatedData._id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedData),
     });
     const updated = await res.json();
-    setContacts(contacts.map((c) => (c._id === id ? updated : c)));
+    setContacts(contacts.map((c) => (c._id === updatedData._id ? updated : c)));
   };
 
   return (
-    <div class="mx-auto p-2 max-w-[800px]">
+    <div className="mx-auto p-2 max-w-[800px]">
       <Navigation />
       <h2>My Contacts</h2>
       <div className="text-center [&>button]:cursor-pointer text-7xl">
