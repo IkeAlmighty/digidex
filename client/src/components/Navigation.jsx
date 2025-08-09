@@ -15,9 +15,10 @@ export default function Navigation() {
         <h1 className="inline-block p-2">{"DigiDex"}</h1>
 
         <HamburgerMenu>
-          {pages.map((page) => {
+          {pages.map((page, index) => {
             return (
               <Link
+                key={`${page.href}index`}
                 to={`${page.href}`}
                 className={`${page.href === pageSlug && "border-b-2"} block m-3`}
               >
