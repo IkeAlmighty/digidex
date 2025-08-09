@@ -2,6 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "test": "cross-env NODE_ENV=test jasmine",
     "start": "node src/server.js",
