@@ -25,6 +25,10 @@ const userSchema = new Schema(
       ref: "Contact",
       default: [],
     },
+    membership: {
+      type: String,
+      trim: true,
+    },
   },
   {
     timestamps: true,
