@@ -2,6 +2,12 @@ import { useState, useEffect } from "react";
 import Contact from "./Contact";
 import Navigation from "../components/Navigation";
 import NewContact from "../components/NewContact";
+import {
+  addContact,
+  deleteContact,
+  getContacts,
+  updateContact,
+} from "../api/contacts";
 
 const ContactsPage = () => {
   const [contacts, setContacts] = useState([]);
@@ -10,20 +16,16 @@ const ContactsPage = () => {
 
   useEffect(() => {
     async function fetchAndSetContacts() {
-      const response = await fetch("/api/contacts");
+      const response = await getContacts();
       setContacts(await response.json());
     }
 
     fetchAndSetContacts();
   }, []);
 
-  const handleAdd = async (newContact) => {
+  async function handleAdd(newContact) {
     try {
-      const res = await fetch("/api/contacts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newContact),
-      });
+      const res = await addContact(newContact);
 
       if (res.ok) {
         const { created } = await res.json();
@@ -35,25 +37,21 @@ const ContactsPage = () => {
     } catch (err) {
       console.error(err);
     }
-  };
+  }
 
-  const handleDelete = async (id) => {
-    await fetch(`/api/contacts/${id}`, { method: "DELETE" });
+  async function handleDelete(id) {
+    await deleteContact(id);
     setContacts(contacts.filter((c) => c._id !== id));
-  };
+  }
 
-  const handleUpdate = async (updatedData) => {
-    const res = await fetch(`/api/contacts/${updatedData._id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updatedData),
-    });
+  async function handleUpdate(updatedData) {
+    const res = await updateContact(updateData);
     const updated = await res.json();
     setContacts(contacts.map((c) => (c._id === updatedData._id ? updated : c)));
-  };
+  }
 
   return (
-    <div className="mx-auto p-2 max-w-[800px]">
+    <div className="page-container">
       <Navigation />
       <h2>My Contacts</h2>
       <div className="text-center [&>button]:cursor-pointer text-7xl">

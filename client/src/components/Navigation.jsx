@@ -7,12 +7,15 @@ export default function Navigation() {
   const segments = location.pathname.split("/").filter(Boolean);
   const pageSlug = "/" + (segments[segments.length - 1] || "");
 
-  const pages = [{ title: "", href: "/" }];
+  const pages = [
+    { title: "Contact List", href: "/" },
+    { title: "Import Contacts", href: "/import" },
+  ];
 
   return (
     <nav>
       <div className="flex items-stretch justify-between border-b">
-        <h1 className="inline-block p-2">{"DigiDex"}</h1>
+        <h1 className="inline-block p-2">DigiDex</h1>
 
         <HamburgerMenu>
           {pages.map((page, index) => {
