@@ -1,16 +1,18 @@
 import { Router } from "express";
 import { Contact, User } from "../../models/index.js";
 import { trimUnusedFields } from "../../utils/validation.js";
+import parsePhoneNumber from "libphonenumber-js";
 
 const router = Router();
 
 router.post("/", async (req, res) => {
   const { name, email, phone, notes, tags } = req.body;
+
   const contactData = trimUnusedFields({
     owner: req.user.id,
     name,
     email,
-    phone: parseInt(phone),
+    phone: parseInt(parsePhoneNumber(phone)?.number),
     notes,
     tags,
   });

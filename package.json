@@ -16,8 +16,5 @@
   "type": "module",
   "devDependencies": {
     "concurrently": "^9.1.2"
-  },
-  "dependencies": {
-    "react-icons": "^5.5.0"
   }
 }
