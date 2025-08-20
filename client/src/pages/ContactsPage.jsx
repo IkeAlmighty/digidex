@@ -45,7 +45,7 @@ const ContactsPage = () => {
   }
 
   async function handleUpdate(updatedData) {
-    const res = await updateContact(updateData);
+    const res = await updateContact(updatedData);
     const updated = await res.json();
     setContacts(contacts.map((c) => (c._id === updatedData._id ? updated : c)));
   }
