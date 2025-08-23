@@ -98,30 +98,33 @@ const Contact = ({ contact, onDelete, onUpdate }) => {
       ) : (
         <div>
           <div>{contact.name}</div>
-          {expandedView ? (
+          {expandedView && (
             <div>
               <div>{contact.email}</div>
               <div>{contact.phone}</div>
             </div>
-          ) : (
-            <div>
-              {contact.tags.map((tag, index) => (
-                <span
-                  key={`tags-noedit-${tag}${contact._id}`}
-                  className="text-[#ccc] inline-block !my-0 !py-0 !mx-0 !px-0 !mr-2 italic !cursor-text"
-                  disabled={true}
-                >
-                  {tag}
-                  {contact.tags.length - 1 !== index && ","}
-                </span>
-              ))}
-            </div>
           )}
+          <div>
+            {contact.tags.map((tag, index) => (
+              <span
+                key={`tags-noedit-${tag}${contact._id}`}
+                className="text-[#ccc] inline-block !my-0 !py-0 !mx-0 !px-0 !mr-2 italic !cursor-text"
+                disabled={true}
+              >
+                {tag}
+                {contact.tags.length - 1 !== index && ","}
+              </span>
+            ))}
+          </div>
 
-          <button onClick={() => setEditing(true)}>Edit</button>
-          <a href={`sms:${contact.phone}`}>Text</a>
-          <a href={`mailto:${contact.email}`}>Email</a>
-          <a href={`tel:${contact.phone}`}>Call</a>
+          <div className="!p-0 !m-0 [&_*]:w-[50px] [&_*]:inline-block">
+            <button className="!m-0" onClick={() => setEditing(true)}>
+              Edit
+            </button>
+            {contact.phone && <a href={`sms:${contact.phone}`}>Text</a>}
+            {contact.email && <a href={`mailto:${contact.email}`}>Email</a>}
+            {contact.phone && <a href={`tel:${contact.phone}`}>Call</a>}
+          </div>
           <hr />
         </div>
       )}
