@@ -16,5 +16,8 @@
   "type": "module",
   "devDependencies": {
     "concurrently": "^9.1.2"
+  },
+  "dependencies": {
+    "helmet": "^8.1.0"
   }
 }
