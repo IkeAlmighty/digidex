@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Contact from "./Contact";
+import Contact from "../components/Contact";
 import Navigation from "../components/Navigation";
 import NewContact from "../components/NewContact";
 import {
@@ -8,6 +8,7 @@ import {
   getContacts,
   updateContact,
 } from "../api/contacts";
+import Modal from "../components/Modal";
 
 const ContactsPage = () => {
   const [contacts, setContacts] = useState([]);
@@ -52,16 +53,14 @@ const ContactsPage = () => {
 
   return (
     <div className="page-container">
-      <Navigation />
-      <h2>My Contacts</h2>
-      <div className="text-center [&>button]:cursor-pointer text-7xl">
-        <button
-          onClick={() => setShowNewContactComponent(!showNewContactComponent)}
-        >
-          {showNewContactComponent ? "-" : "+"}
-        </button>
+      <div className="sticky top-0">
+        <Navigation onPlus={() => setShowNewContactComponent(true)} />
       </div>
-      {showNewContactComponent && <NewContact onSubmit={handleAdd} />}
+      {showNewContactComponent && (
+        <Modal onExit={() => setShowNewContactComponent(false)}>
+          <NewContact onSubmit={handleAdd} />
+        </Modal>
+      )}
 
       <div>
         {contacts.map((contact) => (
