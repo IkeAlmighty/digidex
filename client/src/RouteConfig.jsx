@@ -4,6 +4,7 @@ import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import ContactsPage from "./pages/ContactsPage.jsx";
 import Signup from "./pages/Signup.jsx";
 import ImportContacts from "./pages/ImportContacts.jsx";
+import MembershipPage from "./pages/MembershipPage";
 
 export default function RouteConfig() {
   return (
@@ -19,6 +20,7 @@ export default function RouteConfig() {
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/import" element={<ImportContacts />} />
+      <Route path="/membership" element={<MembershipPage />} />
     </Routes>
   );
 }
