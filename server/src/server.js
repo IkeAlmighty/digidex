@@ -4,9 +4,45 @@ import db from "./db/connection.js";
 import cookieParser from "cookie-parser";
 import { fileURLToPath } from "url";
 import path from "path";
+import helmet from "helmet";
+import "dotenv/config";
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+// let stripe through CSP:
+const csp = {
+  "default-src": ["'self'"],
+  "script-src": ["'self'", "https://js.stripe.com"],
+  "connect-src": [
+    "'self'",
+    "https://api.stripe.com",
+    "https://m.stripe.network",
+  ],
+  "frame-src": ["'self'", "https://js.stripe.com"],
+  "style-src": ["'self'", "'unsafe-inline'"],
+  "img-src": ["'self'", "data:", "https://*.stripe.com"],
+  "font-src": ["'self'", "data:"],
+  "frame-ancestors": ["'self'"],
+};
+
+if (process.env.NODE_ENV !== "production") {
+  csp["script-src"].push("'unsafe-eval'", "http://localhost:5173");
+  csp["connect-src"].push("http://localhost:5173", "ws://localhost:5173");
+}
+
+app.use((_req, res, next) => {
+  res.removeHeader("Content-Security-Policy");
+  next();
+});
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: csp,
+    },
+  })
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
