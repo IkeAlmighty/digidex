@@ -29,6 +29,18 @@ const userSchema = new Schema(
       type: String,
       trim: true,
     },
+    stripeCustomerId: {
+      type: String,
+    },
+    stripeSubscriptionId: {
+      type: String,
+    },
+    subscriptionTier: {
+      type: String,
+    },
+    subcriptionStatus: {
+      type: String,
+    },
   },
   {
     timestamps: true,
