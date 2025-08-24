@@ -5,7 +5,7 @@ import { VitePWA } from "vite-plugin-pwa";
 
 // you can copy the base structure of manifest object.
 const manifestForPlugIn = {
-  registerType: "prompt",
+  registerType: "autoUpdate",
   manifest: {
     name: "Digidex",
     short_name: "digidex",

@@ -17,6 +17,9 @@ const ContactsPage = () => {
 
   const [showNewContactComponent, setShowNewContactComponent] = useState(false);
 
+  const [selectModeWaitTime, setSelectModeWaitTime] = useState(1000);
+  const [selected, setSelected] = useState([]);
+
   useEffect(() => {
     async function fetchAndSetContacts() {
       const response = await getContacts();
@@ -60,7 +63,19 @@ const ContactsPage = () => {
   }
 
   function handleSearchResults(results) {
-    setDisplayedContacts(results);
+    setDisplayedContacts([...new Set([...selected, ...results])]);
+  }
+
+  function handleSelect(contact) {
+    if (selected.length + 1 === 1) setSelectModeWaitTime(0);
+
+    setSelected([...selected, contact]);
+  }
+
+  function handleDeselect(contact) {
+    if (selected.length - 1 === 0) setSelectModeWaitTime(1000);
+
+    setSelected(selected.filter((c) => c !== contact));
   }
 
   return (
@@ -96,6 +111,9 @@ const ContactsPage = () => {
             contact={contact}
             onDelete={handleDelete}
             onUpdate={handleUpdate}
+            onSelect={handleSelect}
+            onDeselect={handleDeselect}
+            selectModeWaitTime={selectModeWaitTime}
           />
         ))}
       </div>
