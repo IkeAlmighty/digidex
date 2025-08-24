@@ -9,16 +9,20 @@ import {
   updateContact,
 } from "../api/contacts";
 import Modal from "../components/Modal";
+import ContactSearchBar from "../components/ContactSearchBar";
 
 const ContactsPage = () => {
   const [contacts, setContacts] = useState([]);
+  const [displayedContacts, setDisplayedContacts] = useState([]);
 
   const [showNewContactComponent, setShowNewContactComponent] = useState(false);
 
   useEffect(() => {
     async function fetchAndSetContacts() {
       const response = await getContacts();
-      setContacts(await response.json());
+      const _contacts = await response.json();
+      setContacts(_contacts);
+      setDisplayedContacts(_contacts);
     }
 
     fetchAndSetContacts();
@@ -51,19 +55,42 @@ const ContactsPage = () => {
     setContacts(contacts.map((c) => (c._id === updatedData._id ? updated : c)));
   }
 
+  function handleToolBarButton() {
+    setShowNewContactComponent(!showNewContactComponent);
+  }
+
+  function handleSearchResults(results) {
+    setDisplayedContacts(results);
+  }
+
   return (
     <div className="page-container">
       <div className="sticky top-0">
-        <Navigation onPlus={() => setShowNewContactComponent(true)} />
+        <Navigation>
+          <div className="flex space-x-5">
+            <button
+              onClick={handleToolBarButton}
+              className={`${showNewContactComponent && "rotate-45"} text-5xl`}
+            >
+              +
+            </button>
+
+            <ContactSearchBar
+              onChange={handleSearchResults}
+              dataset={contacts}
+            />
+          </div>
+        </Navigation>
       </div>
+
       {showNewContactComponent && (
-        <Modal onExit={() => setShowNewContactComponent(false)}>
+        <Modal>
           <NewContact onSubmit={handleAdd} />
         </Modal>
       )}
 
       <div>
-        {contacts.map((contact) => (
+        {displayedContacts.map((contact) => (
           <Contact
             key={contact._id}
             contact={contact}
