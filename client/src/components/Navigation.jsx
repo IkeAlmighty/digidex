@@ -2,7 +2,7 @@ import LogoutButton from "./LogoutButton";
 import HamburgerMenu from "./HamburgerMenu";
 import { Link, useLocation } from "react-router";
 
-export default function Navigation({ onPlus }) {
+export default function Navigation({ children }) {
   const location = useLocation();
   const segments = location.pathname.split("/").filter(Boolean);
   const pageSlug = "/" + (segments[segments.length - 1] || "");
@@ -13,13 +13,8 @@ export default function Navigation({ onPlus }) {
   ];
 
   return (
-    <nav className="bg-white flex items-stretch justify-between border-b">
-      {onPlus && (
-        <div className="my-1 [&>button]:cursor-pointer text-5xl">
-          <button onClick={onPlus}>+</button>
-        </div>
-      )}
-      <h1 className="inline-block p-2">DigiDex</h1>
+    <nav className="bg-white flex items-stretch justify-between border-b !pt-1">
+      <div className="my-1 [&>button]:cursor-pointer">{children}</div>
 
       <HamburgerMenu>
         {pages.map((page, index) => {
