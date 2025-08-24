@@ -1,12 +1,24 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
-const Contact = ({ contact, onDelete, onUpdate }) => {
+const Contact = ({
+  contact,
+  onDelete,
+  onUpdate,
+  onSelect,
+  onDeselect,
+  selectModeWaitTime = 2000,
+}) => {
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState(contact);
 
   const [expandedView, setExpandedView] = useState(false);
 
   const newTagInput = useRef();
+
+  const [selected, setSelected] = useState(false);
+
+  const [selecting, setSelecting] = useState(null);
+  const [timeoutId, setTimeoutId] = useState(null);
 
   function handleSave() {
     onUpdate(form);
@@ -25,8 +37,42 @@ const Contact = ({ contact, onDelete, onUpdate }) => {
     });
   }
 
+  function startSelecting(e) {
+    e.stopPropagation();
+    if (!selected) setSelecting(true);
+    else {
+      setSelected(false);
+      onDeselect(contact);
+    }
+  }
+
+  function endSelecting() {
+    setSelecting(false);
+  }
+
+  useEffect(() => {
+    if (!selecting) {
+      // end the interval:
+      clearTimeout(timeoutId);
+    } else {
+      // set a timeout to select the item:
+
+      const _timeoutId = setTimeout(() => {
+        setSelected(true);
+        onSelect(contact);
+      }, selectModeWaitTime);
+
+      setTimeoutId(_timeoutId);
+    }
+  }, [selecting]);
+
   return (
-    <div className="b-1 [&_*]:my-1 [&_*]:p-1 [&_*]:mx-2 [&_button]:cursor-pointer [&_button]:text-[#ccc] [&_a]:text-[#ccc] [&_a]:cursor-pointer [&_input]:text-[#ccc]">
+    <div
+      onMouseDown={startSelecting}
+      onMouseUp={endSelecting}
+      className="b-1 [&_*]:my-1 [&_*]:p-1 [&_*]:mx-2 [&_button]:cursor-pointer [&_button]:text-[#ccc] [&_a]:text-[#ccc] [&_a]:cursor-pointer [&_input]:text-[#ccc]"
+    >
+      {selected && "SELECTED"}
       {editing ? (
         <div className=" ">
           <div>
