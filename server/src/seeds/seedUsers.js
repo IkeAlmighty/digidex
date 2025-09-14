@@ -1,3 +1,3 @@
 export default [
-  { username: "ike", email: "ike@ike.coffee", password: "12345" },
+  { username: "test", email: "test@test.com", password: "12345" },
 ];

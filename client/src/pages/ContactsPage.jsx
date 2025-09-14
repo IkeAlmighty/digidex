@@ -37,7 +37,10 @@ const ContactsPage = () => {
 
       if (res.ok) {
         const { created } = await res.json();
-        setContacts([...contacts, created]);
+        setDisplayedContacts([created, ...contacts]);
+        setContacts([created, ...contacts]);
+
+        setShowNewContactComponent(false);
       } else {
         const { error } = await res.json();
         alert(error); // TODO: replace with toast notification
@@ -49,12 +52,16 @@ const ContactsPage = () => {
 
   async function handleDelete(id) {
     await deleteContact(id);
+    setDisplayedContacts(contacts.filter((c) => c._id !== id));
     setContacts(contacts.filter((c) => c._id !== id));
   }
 
   async function handleUpdate(updatedData) {
     const res = await updateContact(updatedData);
     const updated = await res.json();
+    setDisplayedContacts(
+      contacts.map((c) => (c._id === updatedData._id ? updated : c))
+    );
     setContacts(contacts.map((c) => (c._id === updatedData._id ? updated : c)));
   }
 
