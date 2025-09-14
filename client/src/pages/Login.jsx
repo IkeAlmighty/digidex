@@ -3,8 +3,8 @@ import { login } from "../api/users.js";
 import { useNavigate, Link } from "react-router";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("test@test.com");
+  const [password, setPassword] = useState("12345");
 
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -34,7 +34,10 @@ export default function Login() {
     >
       <h2 className="text-xl mb-4">Login</h2>
       <div className="mb-3">
-        <label className="block mb-1">Email</label>
+        <label className="block mb-1">
+          Email{" "}
+          <span className="text-xs italic">(test email is test@test.com)</span>
+        </label>
         <input
           type="text"
           value={email}
@@ -44,7 +47,10 @@ export default function Login() {
         />
       </div>
       <div className="mb-4">
-        <label className="block mb-1">Password</label>
+        <label className="block mb-1">
+          Password
+          <span className="text-xs italic">(test password is 12345)</span>
+        </label>
         <input
           type="password"
           value={password}
