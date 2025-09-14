@@ -26,7 +26,10 @@ const Contact = ({
   }
 
   function addTag() {
-    setForm({ ...form, tags: [newTagInput.current.value, ...form.tags] });
+    setForm({
+      ...form,
+      tags: [newTagInput.current.value.toLowerCase().trim(), ...form.tags],
+    });
     newTagInput.current.value = "";
   }
 
@@ -67,11 +70,7 @@ const Contact = ({
   }, [selecting]);
 
   return (
-    <div
-      onMouseDown={startSelecting}
-      onMouseUp={endSelecting}
-      className="b-1 [&_*]:my-1 [&_*]:p-1 [&_*]:mx-2 [&_button]:cursor-pointer [&_button]:text-[#ccc] [&_a]:text-[#ccc] [&_a]:cursor-pointer [&_input]:text-[#ccc]"
-    >
+    <div className="b-1 [&_*]:my-1 [&_*]:p-1 [&_*]:mx-2 [&_button]:cursor-pointer [&_button]:text-[#ccc] [&_a]:text-[#ccc] [&_a]:cursor-pointer [&_input]:text-[#ccc]">
       {selected && "SELECTED"}
       {editing ? (
         <div className=" ">
