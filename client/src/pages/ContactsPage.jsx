@@ -37,7 +37,8 @@ const ContactsPage = () => {
 
       if (res.ok) {
         const { created } = await res.json();
-        setContacts([...contacts, created]);
+        console.log(created);
+        setContacts([created, ...contacts]);
       } else {
         const { error } = await res.json();
         alert(error); // TODO: replace with toast notification
