@@ -24,8 +24,11 @@ const ContactsPage = () => {
     async function fetchAndSetContacts() {
       const response = await getContacts();
       const _contacts = await response.json();
-      setContacts(_contacts);
-      setDisplayedContacts(_contacts);
+      const contactsByName = _contacts.sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
+      setContacts(contactsByName);
+      setDisplayedContacts(contactsByName);
     }
 
     fetchAndSetContacts();
