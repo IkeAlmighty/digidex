@@ -10,6 +10,7 @@ import {
 } from "../api/contacts";
 import Modal from "../components/Modal";
 import ContactSearchBar from "../components/ContactSearchBar";
+import FilterBySelector from "../components/FilterBySelector";
 
 const ContactsPage = () => {
   const [contacts, setContacts] = useState([]);
@@ -20,6 +21,8 @@ const ContactsPage = () => {
   const [selectModeWaitTime, setSelectModeWaitTime] = useState(1000);
   const [selected, setSelected] = useState([]);
 
+  const [filterByOption, setFilterByOption] = useState("name");
+
   useEffect(() => {
     async function fetchAndSetContacts() {
       const response = await getContacts();
@@ -28,11 +31,26 @@ const ContactsPage = () => {
         a.name.localeCompare(b.name)
       );
       setContacts(contactsByName);
-      setDisplayedContacts(contactsByName);
     }
 
     fetchAndSetContacts();
   }, []);
+
+  useEffect(() => {
+    if (filterByOption === "name") {
+      setDisplayedContacts(
+        [...contacts].sort((a, b) => a.name.localeCompare(b.name))
+      );
+    } else if (filterByOption === "date added") {
+      setDisplayedContacts(
+        [...contacts].sort(
+          (a, b) => new Date(b.dateAdded) - new Date(a.dateAdded)
+        )
+      );
+    } else {
+      setDisplayedContacts(contacts);
+    }
+  }, [contacts, filterByOption]);
 
   async function handleAdd(newContact) {
     try {
@@ -113,6 +131,12 @@ const ContactsPage = () => {
           <NewContact onSubmit={handleAdd} />
         </Modal>
       )}
+
+      <FilterBySelector
+        options={["name", "date added"]}
+        selectedOption={filterByOption}
+        onChange={(option) => setFilterByOption(option)}
+      />
 
       <div>
         {displayedContacts.map((contact) => (
