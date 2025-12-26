@@ -34,7 +34,7 @@ const contactSchema = new Schema({
       message: "Tags must be alphanumeric with optional dashes or underscores",
     },
   },
-});
+}, { timestamps: true });
 
 const Contact = model("Contact", contactSchema);
 

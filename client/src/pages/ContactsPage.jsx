@@ -43,9 +43,11 @@ const ContactsPage = () => {
       );
     } else if (filterByOption === "date added") {
       setDisplayedContacts(
-        [...contacts].sort(
-          (a, b) => new Date(b.dateAdded) - new Date(a.dateAdded)
-        )
+        [...contacts].sort((a, b) => {
+          const aDate = a?.createdAt || a?.updatedAt || 0;
+          const bDate = b?.createdAt || b?.updatedAt || 0;
+          return new Date(bDate) - new Date(aDate);
+        })
       );
     } else {
       setDisplayedContacts(contacts);
