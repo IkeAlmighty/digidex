@@ -51,15 +51,10 @@ const ContactsPage = () => {
       );
     } else {
       // filter by the selected tag:
-      setDisplayedContacts(
-        [...contacts].sort((a, b) => {
-          const aHasTag = a.tags && a.tags.includes(filterByOption);
-          const bHasTag = b.tags && b.tags.includes(filterByOption);
-          if (aHasTag && !bHasTag) return -1;
-          if (!aHasTag && bHasTag) return 1;
-          return 0;
-        })
+      const containsTag = contacts.filter(
+        (contact) => contact.tags && contact.tags.includes(filterByOption)
       );
+      setDisplayedContacts(containsTag);
     }
   }, [contacts, filterByOption]);
 
