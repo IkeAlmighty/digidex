@@ -50,7 +50,16 @@ const ContactsPage = () => {
         })
       );
     } else {
-      setDisplayedContacts(contacts);
+      // filter by the selected tag:
+      setDisplayedContacts(
+        [...contacts].sort((a, b) => {
+          const aHasTag = a.tags && a.tags.includes(filterByOption);
+          const bHasTag = b.tags && b.tags.includes(filterByOption);
+          if (aHasTag && !bHasTag) return -1;
+          if (!aHasTag && bHasTag) return 1;
+          return 0;
+        })
+      );
     }
   }, [contacts, filterByOption]);
 
@@ -108,6 +117,17 @@ const ContactsPage = () => {
     setSelected(selected.filter((c) => c !== contact));
   }
 
+  function tagsFromContacts(contacts) {
+    const tagsSet = new Set();
+    contacts.forEach((contact) => {
+      if (contact.tags && Array.isArray(contact.tags)) {
+        contact.tags.forEach((tag) => tagsSet.add(tag));
+      }
+    });
+
+    return Array.from(tagsSet);
+  }
+
   return (
     <div className="page-container">
       <div className="sticky top-0">
@@ -135,7 +155,7 @@ const ContactsPage = () => {
       )}
 
       <FilterBySelector
-        options={["name", "date added"]}
+        options={["name", "date added", ...tagsFromContacts(contacts)]}
         selectedOption={filterByOption}
         onChange={(option) => setFilterByOption(option)}
       />
