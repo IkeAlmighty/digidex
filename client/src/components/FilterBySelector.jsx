@@ -3,14 +3,22 @@ export default function FilterBySelector({
   selectedOption,
   onChange,
 }) {
+  function sortWithNameAndDateFirst(a, b) {
+    if (a === "name") return -1;
+    else if (b === "name") return 1;
+    else if (a === "date added") return -1;
+    else if (b === "date added") return 1;
+    else return a.localeCompare(b);
+  }
+
   return (
-    <div className="flex flex-row items-center space-x-2 p-2">
-      <div>filter by:</div>
+    <div className="[&>*]:mx-2 [&>*]:my-1 text-xs overflow-x-scroll w-full whitespace-nowrap pt-1 pb-3">
+      <span>filter by:</span>
       {options &&
-        options.map((option) => (
+        options.sort(sortWithNameAndDateFirst).map((option) => (
           <button
             key={option}
-            className={`px-2 y-1 rounded-2xl border-2 cursor-po ${
+            className={`px-2 py-1 rounded-2xl border-2 cursor-pointer ${
               selectedOption === option
                 ? "bg-blue-500 text-white"
                 : "bg-white text-black"

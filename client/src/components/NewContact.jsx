@@ -1,16 +1,29 @@
 import { useState } from "react";
+import { useEffect } from "react";
 
 export default function NewContact({ onSubmit }) {
+  const [tagsRaw, setTagsRaw] = useState("");
   const [newContact, setNewContact] = useState({
     name: "",
     email: "",
     phone: "",
+    tags: [],
   });
 
   async function handleAdd() {
     await onSubmit(newContact);
-    setNewContact({ name: "", email: "", phone: "" });
+    setNewContact({ name: "", email: "", phone: "", tags: [] });
   }
+
+  useEffect(() => {
+    setNewContact({
+      ...newContact,
+      tags: tagsRaw
+        .split(", ")
+        .map((tag) => tag.trim())
+        .filter((tag) => tag.length > 0),
+    });
+  }, [tagsRaw]);
 
   return (
     <>
@@ -40,6 +53,14 @@ export default function NewContact({ onSubmit }) {
             onChange={(e) =>
               setNewContact({ ...newContact, phone: e.target.value })
             }
+          />
+        </label>
+
+        <label>
+          <input
+            placeholder="Tags (comma separated)"
+            value={tagsRaw}
+            onChange={(e) => setTagsRaw(e.target.value)}
           />
         </label>
 
